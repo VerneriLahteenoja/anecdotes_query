@@ -23,15 +23,17 @@ const App = () => {
     mutationFn: updateOne,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes']})
+      dispatch({ type: "VOTE", payload: "Voted!"})
+      setTimeout(() => {
+        dispatch({ })
+      }, 5000)
+    },
+    onError: () => {
+      dispatch({ type: "ERROR", payload: "Vote failed"})
     }
   })
   const handleVote = async (anecdote) => {
     newAnecdoteMutation.mutate({ ...anecdote, votes: anecdote.votes+1})
-
-    dispatch({ type: "VOTE", payload: "Voted!"})
-    setTimeout(() => {
-      dispatch({ })
-    }, 5000)
   }
 
   if (result.isLoading) {
